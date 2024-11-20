@@ -50,4 +50,10 @@ public class ClientController {
 
         return ResponseEntity.created(uri).body(clientUpdated);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
+        service.deleteClient(id);
+        return ResponseEntity.noContent().build();
+    }
 }
