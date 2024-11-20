@@ -5,6 +5,7 @@ import com.dutra.modeloCrud.dtos.error.ValidationError;
 import com.dutra.modeloCrud.services.exceptions.DatabaseException;
 import com.dutra.modeloCrud.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -48,6 +49,14 @@ public class ControllerExceptionHandler {
     public ResponseEntity<CustomError> illegalArgument(IllegalArgumentException exception, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError error = new CustomError(Instant.now(), status.value(), exception.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(JdbcSQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<CustomError> integrityConstraintViolation(JdbcSQLIntegrityConstraintViolationException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        CustomError error = new CustomError(Instant.now(), status.value(), "CPF already present in DB. Unique index/primary key violation.", request.getRequestURI());
 
         return ResponseEntity.status(status).body(error);
     }
