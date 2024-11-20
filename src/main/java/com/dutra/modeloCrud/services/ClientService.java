@@ -50,7 +50,7 @@ public class ClientService implements ClientServiceInterface {
             Client clientUpdated = repository.getReferenceById(id);
 
             clientUpdated.setName(clientUpdate.name());
-            clientUpdated.setCpf(clientUpdate.cpf());
+            clientUpdated.setCpf(cpfFormatter(clientUpdate.cpf()));
             clientUpdated.setIncome(clientUpdate.income());
             clientUpdated.setBirthDate(clientUpdate.birthDate());
             clientUpdated.setBirthDate(clientUpdate.birthDate());
@@ -86,11 +86,20 @@ public class ClientService implements ClientServiceInterface {
         Client newClient = new Client();
 
         newClient.setName(entry.name());
-        newClient.setCpf(entry.cpf());
+        newClient.setCpf(cpfFormatter(entry.cpf()));
         newClient.setIncome(entry.income());
         newClient.setBirthDate(entry.birthDate());
         newClient.setBirthDate(entry.birthDate());
 
         return newClient;
+    }
+
+    private String cpfFormatter(String cpf) {
+        cpf = cpf.replaceAll("\\D", "");
+
+        if (cpf.length() != 11) {
+            throw new IllegalArgumentException("O CPF deve conter 11 dígitos.");
+        }
+        return cpf.replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
     }
 }
