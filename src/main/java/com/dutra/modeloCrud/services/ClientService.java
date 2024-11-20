@@ -54,7 +54,7 @@ public class ClientService implements ClientServiceInterface {
             clientUpdated.setCpf(cpfFormatter(clientUpdate.cpf()));
             clientUpdated.setIncome(clientUpdate.income());
             clientUpdated.setBirthDate(clientUpdate.birthDate());
-            clientUpdated.setBirthDate(clientUpdate.birthDate());
+            clientUpdated.setChildren(clientUpdate.children());
 
             repository.save(clientUpdated);
             return builderResponse(clientUpdated);
@@ -92,7 +92,7 @@ public class ClientService implements ClientServiceInterface {
         newClient.setCpf(cpfFormatter(entry.cpf()));
         newClient.setIncome(entry.income());
         newClient.setBirthDate(entry.birthDate());
-        newClient.setBirthDate(entry.birthDate());
+        newClient.setChildren(entry.children());
 
         return newClient;
     }
@@ -100,8 +100,8 @@ public class ClientService implements ClientServiceInterface {
     private String cpfFormatter(String cpf) {
         cpf = cpf.replaceAll("\\D", "");
 
-        if (cpf.length() != 11) {
-            throw new IllegalArgumentException("O CPF deve conter 11 dígitos.");
+        if ((cpf.length() != 11)) {
+            throw new IllegalArgumentException("The CPF entered must have exactly 11 digits, without dots and dash.");
         }
         return cpf.replaceAll("(\\d{3})(\\d{3})(\\d{3})(\\d{2})", "$1.$2.$3-$4");
     }
