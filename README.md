@@ -1,7 +1,7 @@
 
-# CRUD para entidade Cliente
+## CRUD para entidade Cliente
 
-## Sobre o projeto
+### Sobre o projeto
 
 O presente CRUD foi desenvolvido no contexto de exercício para o curso Java Spring Professional, da DevSuperior.
 
@@ -52,8 +52,8 @@ public class WebConfig {
 }
 ~~~
 
-## Tecnologias utilizadas
-### Back end
+### Tecnologias utilizadas
+#### Back end
 - Java
 - Spring Boot
 - JPA / Hibernate
@@ -62,13 +62,13 @@ public class WebConfig {
 - SQL (seeding: data.sql)
 
 
-## Artefato
+### Artefato
 modeloCrud
 
-## Clonar repositório
-https://github.com/dutra357/modulo1_proj.avaliativo
+### Clonar repositório
+https://github.com/dutra357/modeloCrud
 
-## Autor
+### Autor
 
 David Alves Dutra
 
