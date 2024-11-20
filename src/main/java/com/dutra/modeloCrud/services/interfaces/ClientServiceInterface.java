@@ -9,7 +9,7 @@ public interface ClientServiceInterface {
 
     ClientResponse findById(Long id);
     Page<ClientResponse> findAll(Pageable pageable);
-    ClientResponse saveClient(ClientEntry newClient);
-    ClientResponse updateClient(ClientEntry clientUpdated);
+    ClientResponse saveClient(ClientEntry client);
+    ClientResponse updateClient(Long id, ClientEntry clientUpdate);
     void deleteClient(Long id);
 }
