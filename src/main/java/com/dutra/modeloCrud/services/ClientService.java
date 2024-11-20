@@ -4,7 +4,11 @@ import com.dutra.modeloCrud.dtos.ClientEntry;
 import com.dutra.modeloCrud.dtos.ClientResponse;
 import com.dutra.modeloCrud.entities.Client;
 import com.dutra.modeloCrud.repositories.ClientRepository;
+import com.dutra.modeloCrud.services.exceptions.DatabaseException;
+import com.dutra.modeloCrud.services.exceptions.ResourceNotFoundException;
 import com.dutra.modeloCrud.services.interfaces.ClientServiceInterface;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,7 +25,9 @@ public class ClientService implements ClientServiceInterface {
     @Override
     @Transactional(readOnly = true)
     public ClientResponse findById(Long id) {
-        return builderResponse(repository.findById(id).get());
+        return builderResponse(repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Client not found.")
+        ));
     }
 
     @Override
@@ -40,21 +46,33 @@ public class ClientService implements ClientServiceInterface {
     @Override
     @Transactional
     public ClientResponse updateClient(Long id, ClientEntry clientUpdate) {
-        Client clientUpdated = repository.getReferenceById(id);
+        try {
+            Client clientUpdated = repository.getReferenceById(id);
 
-        clientUpdated.setName(clientUpdate.name());
-        clientUpdated.setCpf(clientUpdate.cpf());
-        clientUpdated.setIncome(clientUpdate.income());
-        clientUpdated.setBirthDate(clientUpdate.birthDate());
-        clientUpdated.setBirthDate(clientUpdate.birthDate());
+            clientUpdated.setName(clientUpdate.name());
+            clientUpdated.setCpf(clientUpdate.cpf());
+            clientUpdated.setIncome(clientUpdate.income());
+            clientUpdated.setBirthDate(clientUpdate.birthDate());
+            clientUpdated.setBirthDate(clientUpdate.birthDate());
 
-        repository.save(clientUpdated);
-        return builderResponse(clientUpdated);
+            repository.save(clientUpdated);
+            return builderResponse(clientUpdated);
+        } catch (EntityNotFoundException exception) {
+            throw new ResourceNotFoundException("Client not found to update.");
+        }
     }
 
     @Override
     public void deleteClient(Long id) {
-        repository.deleteById(id);
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Client not found to delete.");
+        }
+        try {
+            repository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException exception) {
+            throw new DatabaseException("Referential integrity violation (foreign key)");
+        }
     }
 
     private ClientResponse builderResponse(Client client) {
