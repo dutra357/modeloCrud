@@ -40,4 +40,14 @@ public class ClientController {
 
         return ResponseEntity.created(uri).body(client);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ClientResponse> updateClient(@PathVariable Long id, @Valid @RequestBody ClientEntry clientUpdate) {
+        ClientResponse clientUpdated = service.updateClient(id, clientUpdate);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("").buildAndExpand(clientUpdated.id()).toUri();
+
+        return ResponseEntity.created(uri).body(clientUpdated);
+    }
 }

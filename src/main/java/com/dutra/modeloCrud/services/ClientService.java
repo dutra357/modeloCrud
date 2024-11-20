@@ -57,6 +57,7 @@ public class ClientService implements ClientServiceInterface {
 
             repository.save(clientUpdated);
             return builderResponse(clientUpdated);
+
         } catch (EntityNotFoundException exception) {
             throw new ResourceNotFoundException("Client not found to update.");
         }
