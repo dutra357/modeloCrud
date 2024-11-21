@@ -4,6 +4,7 @@ import com.dutra.modeloCrud.dtos.ClientEntry;
 import com.dutra.modeloCrud.dtos.ClientResponse;
 import com.dutra.modeloCrud.services.interfaces.ClientServiceInterface;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}")
-    public ClientResponse findById(@PathVariable Long id) {
-        return service.findById(id);
+    public ResponseEntity<ClientResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping
-    public Page<ClientResponse> findAll(Pageable pageable ) {
-        return service.findAll(pageable);
+    public ResponseEntity<Page<ClientResponse>> findAll(Pageable pageable ) {
+        return ResponseEntity.ok(service.findAll(pageable));
     }
 
     @PostMapping
