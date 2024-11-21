@@ -52,6 +52,8 @@ public class WebConfig {
 }
 ~~~
 
+Para construção dos Dto's, de seu turno, optamos pelo 'record', ao invés da classe tradicional. Nada obstante, aplicadas as validações solicitadas.
+
 ### Tecnologias utilizadas
 #### Back end
 - Java
