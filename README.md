@@ -7,13 +7,13 @@ O presente CRUD foi desenvolvido no contexto de exercício para o curso Java Spr
 
 Inclui um gerenciamento simples de entidade Cliente, contando com validação (Java bean) pelo DTO de entrada.
 
-O campo de cadastramento de CPF de um Client aceita tanto o formato de apenas números (00000000000), quanto formatado com pontos e traço (000.000.000-00).
+O campo de cadastramento de CPF de um Client aceita tanto o formato de apenas números (00000000000), quanto com pontos e traço (000.000.000-00).
 
-O dto de input apresenta uma primeira validação, ou filtro, onde restringe o campo de 11 a 14 caracteres, conforme os padrões acima discriminados.
+O dto de input apresenta uma primeira validação, ou filtro, onde restringe o campo entre 11 a 14 caracteres, conforme os padrões acima discriminados.
 
-Além dele, inserimos um método formatador para a String correspondente ao CPF dentro do Service, o qual, utilizando Expressões Regulares, realiza os demais filtros (a exemplo de mínimo de 11 dígitos).
+Além dele, inserimos um método formatador para a String correspondente ao CPF dentro do Service, onde, utilizando Expressões Regulares, realiza os demais filtros (a exemplo de ter exatamente 11 dígitos, fora pontos e traço).
 
-Referido método, ainda, salva no banco de dados já no formato '000.000.000-00' para uso imediato de eventual Front-end.
+Referido método também salva no banco de dados já no formato padrão de '000.000.000-00' para uso imediato de eventual Front-end.
 
 ~~~java
     private String cpfFormatter(String cpf) {
@@ -28,7 +28,7 @@ Referido método, ainda, salva no banco de dados já no formato '000.000.000-00'
 
 Ademais, agregamos os tratamentos de erros solicitados pelo projeto, bem como os códigos de retorno adequados a cada um deles.
 
-O sistema ainda conta com o campo CPF assinalado como sendo chave única junto ao banco de dados, retornando uma exceção devidamente tratada para o caso de cadastro de outro Client com o mesmo CPF (ainda que não seja uma exigência específica do exercício). Permanecendo o 'id', entretanto, como chave primária.
+O sistema ainda conta com o campo CPF assinalado como sendo chave única junto ao banco de dados, retornando uma exceção devidamente tratada para o caso de cadastro de outro Client com o mesmo CPF (ainda que não seja uma exigência específica do exercício). Permanece o 'id', entretanto, como chave primária.
 
 
 ~~~java
@@ -41,7 +41,7 @@ O sistema ainda conta com o campo CPF assinalado como sendo chave única junto a
     }
 ~~~
 
-Por fim, acrescentamos uma classe de configuração a fim de permitir o adequato tratamento da serialização dos objetos via DTO no momento da listagem geral de Clients (findAll).
+Por fim, acrescentamos uma classe de configuração a fim de permitir a adequada serialização dos objetos via DTO no momento da listagem geral de Clients (findAll).
 
 A confirguração visa a evitar a perda de dados, bem como o alerta (WARN) de 'Serializing PageImpl instances as-is is not supported..'. Classe cliente, com igual fim, implementa a interface Serializeble.
 
